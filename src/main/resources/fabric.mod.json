@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "pride_froggies",
+  "version": "${version}",
+
+  "custom"       : {
+    "hermes"       : true
+  },
+
+  "name": "Pride Froggies",
+  "description": "Smoll mod about froggies & pride",
+  "authors": [
+    "Lunkekiska, Daggsy(assets)"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+
+  "license": "GNU GPLv3",
+
+  "environment": "*",
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.16.x"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}

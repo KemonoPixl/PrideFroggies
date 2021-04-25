@@ -1,0 +1,149 @@
+plugins {
+	id "fabric-loom" version "0.6-SNAPSHOT"
+	id "com.matthewprenger.cursegradle" version "1.4.0" apply false
+	id "maven-publish"
+	id 'com.github.johnrengelman.shadow' version '5.1.0'
+	id "io.freefair.lombok" version "5.1.0"
+}
+
+apply plugin: "fabric-loom"
+apply plugin: "maven-publish"
+apply plugin: "com.github.johnrengelman.shadow"
+apply plugin: "io.freefair.lombok"
+
+archivesBaseName = project.archives_base_name
+version = project.version
+group = project.group
+
+minecraft {
+}
+
+repositories {
+		maven {
+			url "https://www.cursemaven.com"
+			content {
+				includeGroup "curse.maven"
+			}
+		}
+		maven {
+			url "https://jitpack.io/"
+		}
+		maven{
+			url "http://server.bbkr.space:8081/artifactory/libs-release"
+		}
+		maven {
+			url "https://hephaestus.dev/release"
+		}
+		maven {
+			name "Sponge"
+			url "https://repo.spongepowered.org/repository/maven-public/"
+			content { includeGroup "org.spongepowered" }
+		}
+		maven {
+			url "https://maven.theillusivec4.top/"
+		}
+		maven {
+			name "Ladysnake Libs"
+			url 'https://dl.bintray.com/ladysnake/libs'
+		}
+
+		maven {
+			name = "AperLambda"
+			url = 'https://aperlambda.github.io/maven'
+		}
+
+		maven { url = "https://maven.fabricmc.net/" }
+		maven { url = "https://maven.shedaniel.me/" }
+		maven { url = "https://plugins.gradle.org/m2/" }
+		maven { url = "https://files.minecraftforge.net/maven/" }
+		maven { url = "http://server.bbkr.space:8081/artifactory/libs-release/"}
+		maven { url = "https://hephaestus.dev/release"}
+		maven { url = "https://maven.theillusivec4.top/" }
+		maven { url = 'https://dl.bintray.com/ladysnake/libs' }
+		maven {
+		name = 'TerraformersMC'
+		url = 'https://maven.terraformersmc.com/'
+		}
+	}
+
+dependencies {
+	minecraft("com.mojang:minecraft:${minecraft}")
+	mappings("net.fabricmc:yarn:${yarn}:v2")
+	modImplementation("net.fabricmc:fabric-loader:${fabric}")
+	modApi("net.fabricmc.fabric-api:fabric-api:${fabric_api}")
+
+	annotationProcessor('org.spongepowered:mixin:0.8.2:processor')
+
+	modCompile("io.github.prospector:modmenu:${mod_menu}")
+
+	modImplementation("dev.inkwell:hermes:1.0.0")
+
+	modCompile("me.shedaniel:RoughlyEnoughItems-api:${rei}")
+
+	modApi("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:${cardinal_api}")
+
+	modCompile("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-block:${cardinal_api}")
+	modCompile("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-chunk:${cardinal_api}")
+	modCompile("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:${cardinal_api}")
+	modCompile("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-item:${cardinal_api}")
+	modCompile("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-scoreboard:${cardinal_api}")
+	modCompile("io.github.onyxstudios.Cardinal-Components-API:cardinal-components-util:${cardinal_api}")
+
+	modCompile("curse.maven:ecotones-356678:3239172")
+
+	modImplementation("top.theillusivec4.curios:curios-fabric:${curios}")
+
+	modImplementation('com.github.Draylar:static-content:1.0.1')
+	include('com.github.Draylar:static-content:1.0.1')
+
+	modImplementation('com.github.Draylar:maybe-data:master-SNAPSHOT')
+	include('com.github.Draylar:maybe-data:master-SNAPSHOT')
+
+	modCompile("com.terraformersmc.terraform-api:terraform-shapes-api-v1:${terraform_shapes}")
+	include("com.terraformersmc.terraform-api:terraform-shapes-api-v1:${terraform_shapes}")
+
+	modCompile("com.terraformersmc.terraform-api:terraform-biome-builder-api-v1:${terraform_biomes}")
+	include("com.terraformersmc.terraform-api:terraform-biome-builder-api-v1:${terraform_biomes}")
+
+	modCompile("com.terraformersmc.terraform-api:terraform-tree-api-v1:${terraform_trees}")
+	include("com.terraformersmc.terraform-api:terraform-tree-api-v1:${terraform_trees}")
+
+	modCompile("com.terraformersmc.terraform-api:terraform-wood-api-v1:${terraform_wood}")
+	include("com.terraformersmc.terraform-api:terraform-wood-api-v1:${terraform_wood}")
+
+	compileOnly("com.google.code.findbugs:jsr305:3.0.2")
+
+	modRuntime("com.github.SuperCoder7979:databreaker:0.2.6") {
+		exclude module: "fabric-loader"
+	}
+
+	modImplementation "com.github.lambdaurora:spruceui:${spruceui}"
+	include "com.github.lambdaurora:spruceui:${spruceui}"
+
+	shadow "com.electronwill.night-config:core:3.6.3"
+	shadow "com.electronwill.night-config:toml:3.6.3"
+
+	modCompile "com.terraformersmc:terrestria:${terrestria}"
+	modCompile "com.terraformersmc:traverse:${traverse}"
+}
+
+	configurations {
+	}
+
+	java {
+		sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+
+		withSourcesJar()
+	}
+
+	jar {
+		from("LICENSE")
+	}
+
+processResources {
+	inputs.property "version", project.version
+
+	filesMatching("fabric.mod.json") {
+		expand "version": project.version
+	}
+}
